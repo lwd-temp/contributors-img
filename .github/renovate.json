@@ -1,18 +1,25 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base",
+    "config:recommended",
     "schedule:weekly",
     "github>lacolaco/renovate-config:automerge-types",
     "github>lacolaco/renovate-config:ng-update"
   ],
-  "stabilityDays": 5,
+  "minimumReleaseAge": "5 days",
   "prConcurrentLimit": 5,
   "postUpdateOptions": ["yarnDedupeHighest", "gomodTidy"],
   "packageRules": [
     {
-      "depTypeList": ["devDependencies"],
-      "updateTypes": ["minor", "patch", "pin", "digest"],
+      "description": "Disable nx package updates except for patch",
+      "matchPackageNames": ["@nrwl/*", "@nx/*"],
+      "matchUpdateTypes": ["major", "minor"],
+      "enabled": false
+    },
+    {
+      "description": "Automerge devDependencies patch updates",
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["patch", "pin", "digest"],
       "automerge": true
     }
   ]
